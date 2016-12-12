@@ -33,8 +33,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     //MARK: - Interactions
     @IBAction func recordAudio(_ sender: AnyObject) {
         tapToRecordLabel.text = "Recording in progress..."
-        stopRecordingButton.isEnabled = true
-        recordButton.isEnabled = false
+        recordingState(true)
         
         //Start recording audio 
         let dirPath = NSSearchPathForDirectoriesInDomains(.documentDirectory,.userDomainMask, true)[0] as String
@@ -53,13 +52,11 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         audioRecorder.isMeteringEnabled = true
         audioRecorder.prepareToRecord()
         audioRecorder.record()
-        
     }
     
     @IBAction func stopRecording(_ sender: AnyObject) {
         tapToRecordLabel.text = "Tap to record audio"
-        recordButton.isEnabled = true
-        stopRecordingButton.isEnabled = false
+        recordingState(false)
         
         //stop recording 
         audioRecorder.stop()
@@ -75,6 +72,13 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
             print("recording was not successful")
         }
     }
+    
+    // refactor methods
+    func recordingState(_ state: Bool) {
+        stopRecordingButton.isEnabled = true
+        recordButton.isEnabled = false
+    }
+    
     
     //MARK: - seque 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
